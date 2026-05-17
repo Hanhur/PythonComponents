@@ -1,0 +1,26 @@
+[
+  {
+    "last_name": "Иванов",
+    "first_name": "Иван",
+    "patronymic": "Иванович",
+    "birth_year": 1985,
+    "position": "Менеджер",
+    "salary": 75000
+  },
+  {
+    "last_name": "Петрова",
+    "first_name": "Елена",
+    "patronymic": "Сергеевна",
+    "birth_year": 1990,
+    "position": "Разработчик",
+    "salary": 120000
+  },
+  {
+    "last_name": "Сидоров",
+    "first_name": "Алексей",
+    "patronymic": "Викторович",
+    "birth_year": 1978,
+    "position": "Директор",
+    "salary": 200000
+  }
+]
