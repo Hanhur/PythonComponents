@@ -238,234 +238,457 @@
 
 # =====================================================================================
 
-class Fraction:
-    """Класс для работы с обыкновенными дробями"""
+# class Fraction:
+#     """Класс для работы с обыкновенными дробями"""
+#
+#     def __init__(self, numerator = 0, denominator = 1):
+#         """
+#         Конструктор класса
+#         :param numerator: числитель (по умолчанию 0)
+#         :param denominator: знаменатель (по умолчанию 1)
+#         """
+#         if denominator == 0:
+#             raise ValueError("Знаменатель не может быть равен нулю!")
+#
+#         self.__numerator = numerator
+#         self.__denominator = denominator
+#         self.__reduce()  # Сразу сокращаем дробь
+#
+#     # Методы для ввода и вывода данных
+#     def input_data(self):
+#         """Метод для ввода данных с клавиатуры"""
+#         while True:
+#             try:
+#                 num = int(input("Введите числитель: "))
+#                 den = int(input("Введите знаменатель: "))
+#
+#                 if den == 0:
+#                     print("Ошибка: знаменатель не может быть равен нулю! Попробуйте снова.")
+#                     continue
+#
+#                 self.__numerator = num
+#                 self.__denominator = den
+#                 self.__reduce()
+#                 break
+#             except ValueError:
+#                 print("Ошибка: введите целые числа! Попробуйте снова.")
+#
+#     def print_data(self):
+#         """Метод для вывода данных на экран"""
+#         print(self)
+#
+#     # Методы доступа к полям (геттеры и сеттеры)
+#     def get_numerator(self):
+#         """Получить числитель"""
+#         return self.__numerator
+#
+#     def set_numerator(self, value):
+#         """Установить числитель"""
+#         self.__numerator = value
+#         self.__reduce()
+#
+#     def get_denominator(self):
+#         """Получить знаменатель"""
+#         return self.__denominator
+#
+#     def set_denominator(self, value):
+#         """Установить знаменатель"""
+#         if value == 0:
+#             raise ValueError("Знаменатель не может быть равен нулю!")
+#         self.__denominator = value
+#         self.__reduce()
+#
+#     def is_zero(self):
+#         """Проверка, является ли дробь нулевой"""
+#         return self.__numerator == 0
+#
+#     # Вспомогательный метод для сокращения дроби
+#     def __reduce(self):
+#         """Приведение дроби к несократимому виду (приватный метод)"""
+#         # Если знаменатель отрицательный, переносим минус в числитель
+#         if self.__denominator < 0:
+#             self.__numerator = -self.__numerator
+#             self.__denominator = -self.__denominator
+#
+#         # Если числитель равен 0, знаменатель делаем 1
+#         if self.__numerator == 0:
+#             self.__denominator = 1
+#             return
+#
+#         # Находим НОД
+#         from math import gcd
+#         divisor = gcd(abs(self.__numerator), abs(self.__denominator))
+#
+#         # Сокращаем дробь
+#         self.__numerator //= divisor
+#         self.__denominator //= divisor
+#
+#     # Арифметические операции
+#     def add(self, other):
+#         """Сложение дробей"""
+#         if not isinstance(other, Fraction):
+#             raise TypeError("Операнд должен быть объектом класса Fraction")
+#
+#         new_num = self.__numerator * other.__denominator + other.__numerator * self.__denominator
+#         new_den = self.__denominator * other.__denominator
+#         return Fraction(new_num, new_den)
+#
+#     def subtract(self, other):
+#         """Вычитание дробей"""
+#         if not isinstance(other, Fraction):
+#             raise TypeError("Операнд должен быть объектом класса Fraction")
+#
+#         new_num = self.__numerator * other.__denominator - other.__numerator * self.__denominator
+#         new_den = self.__denominator * other.__denominator
+#         return Fraction(new_num, new_den)
+#
+#     def multiply(self, other):
+#         """Умножение дробей"""
+#         if not isinstance(other, Fraction):
+#             raise TypeError("Операнд должен быть объектом класса Fraction")
+#
+#         new_num = self.__numerator * other.__numerator
+#         new_den = self.__denominator * other.__denominator
+#         return Fraction(new_num, new_den)
+#
+#     def divide(self, other):
+#         """Деление дробей"""
+#         if not isinstance(other, Fraction):
+#             raise TypeError("Операнд должен быть объектом класса Fraction")
+#
+#         if other.__numerator == 0:
+#             raise ZeroDivisionError("Деление на нулевую дробь невозможно!")
+#
+#         new_num = self.__numerator * other.__denominator
+#         new_den = self.__denominator * other.__numerator
+#         return Fraction(new_num, new_den)
+#
+#     # Дополнительные методы
+#     def to_decimal(self, precision = 2):
+#         """Преобразование в десятичную дробь"""
+#         return round(self.__numerator / self.__denominator, precision)
+#
+#     # Перегрузка методов для удобства использования
+#     def __str__(self):
+#         """Строковое представление дроби"""
+#         if self.__denominator == 1:
+#             return str(self.__numerator)
+#         elif self.__numerator == 0:
+#             return "0"
+#         else:
+#             return f"{self.__numerator}/{self.__denominator}"
+#
+#     def __repr__(self):
+#         """Представление для отладки"""
+#         return f"Fraction({self.__numerator}, {self.__denominator})"
+#
+#     # Перегрузка арифметических операторов для удобства
+#     def __add__(self, other):
+#         return self.add(other)
+#
+#     def __sub__(self, other):
+#         return self.subtract(other)
+#
+#     def __mul__(self, other):
+#         return self.multiply(other)
+#
+#     def __truediv__(self, other):
+#         return self.divide(other)
+#
+#     def __eq__(self, other):
+#         """Сравнение на равенство"""
+#         if not isinstance(other, Fraction):
+#             return False
+#         return (self.__numerator == other.__numerator and self.__denominator == other.__denominator)
+#
+#
+# # Пример использования программы
+# def main():
+#     print("=" * 50)
+#     print("РАБОТА С ДРОБЯМИ")
+#     print("=" * 50)
+#
+#     # Создание дроби через конструктор
+#     print("\n1. Создание дроби через конструктор:")
+#     f1 = Fraction(3, 4)
+#     print(f"Дробь 1: {f1}")
+#
+#     # Создание дроби через ввод с клавиатуры
+#     print("\n2. Ввод дроби с клавиатуры:")
+#     f2 = Fraction()
+#     f2.input_data()
+#     print(f"Дробь 2: {f2}")
+#
+#     # Демонстрация методов доступа к полям
+#     print("\n3. Доступ к полям через методы:")
+#     print(f"Числитель дроби 1: {f1.get_numerator()}")
+#     print(f"Знаменатель дроби 1: {f1.get_denominator()}")
+#
+#     print("\nИзменение полей через методы:")
+#     f1.set_numerator(6)
+#     f1.set_denominator(8)
+#     print(f"После изменения: {f1}")  # Автоматически сократится до 3/4
+#
+#     # Арифметические операции с обработкой ошибок
+#     print("\n4. Арифметические операции:")
+#     print(f"{f1} + {f2} = {f1.add(f2)}")
+#     print(f"{f1} - {f2} = {f1.subtract(f2)}")
+#     print(f"{f1} * {f2} = {f1.multiply(f2)}")
+#
+#     # Проверка перед делением
+#     if f2.is_zero():
+#         print(f"{f1} / {f2} = Деление на ноль невозможно!")
+#     else:
+#         print(f"{f1} / {f2} = {f1.divide(f2)}")
+#
+#     # Использование перегруженных операторов
+#     print("\n5. Использование перегруженных операторов:")
+#     f3 = Fraction(1, 2)
+#     f4 = Fraction(1, 3)
+#     print(f"{f3} + {f4} = {f3 + f4}")
+#     print(f"{f3} - {f4} = {f3 - f4}")
+#     print(f"{f3} * {f4} = {f3 * f4}")
+#
+#     if f4.is_zero():
+#         print(f"{f3} / {f4} = Деление на ноль невозможно!")
+#     else:
+#         print(f"{f3} / {f4} = {f3 / f4}")
+#
+#     # Десятичное представление
+#     print("\n6. Десятичное представление:")
+#     print(f"{f3} = {f3.to_decimal()}")
+#     print(f"{f3} = {f3.to_decimal(4)} (с точностью 4 знака)")
+#
+#     # Сравнение дробей
+#     print("\n7. Сравнение дробей:")
+#     f5 = Fraction(2, 4)  # Сократится до 1/2
+#     print(f"{f3} == {f5} ? {f3 == f5}")
+#
+#     print("\n" + "=" * 50)
+#
+#
+# if __name__ == "__main__":
+#     main()
 
-    def __init__(self, numerator = 0, denominator = 1):
+# ==================================================================================================================
+
+# class ExampleClass:
+#     __counter = 0
+#
+#     def __init__(self):
+#         self.val = 0
+#         ExampleClass.__counter += 1
+#
+#     def det_counter(self):
+#         return ExampleClass.__counter
+#
+# a = ExampleClass()
+# print(a.__dict__)
+# b = ExampleClass()
+# ExampleClass.counter += 1
+# print(b.counter)
+# print(a.det_counter())
+# print(ExampleClass.get_counter(a))
+
+# ===========================================================================================================
+
+# from random import randint
+#
+# class RandomClass:
+#     def __init__(self):
+#         if randint(0, 1):
+#             self.one = True
+#         else:
+#             self.zero = True
+#
+# a = RandomClass()
+# # print(a.one)
+# print(hasattr(a, "zero"))
+
+# ===========================================================================================================
+
+# class Summing:
+#     def __init__(self):
+#         self.a = 0
+#         self.b = 17
+#
+#     def print_a(self):
+#         print(self.a)
+#
+#     def print_b(self):
+#         print(self.b)
+#
+#     def print_all(self):
+#         self.print_a()
+#         self.print_b()
+#
+# Summing.print_all(Summing())
+
+# ===========================================================================================================
+
+# class ExampleClass:
+#     __counter = 0
+#
+#     def __init__(self):
+#         self.val = 0
+#         ExampleClass.__counter += 1
+#
+#     def det_val(self):
+#         return self.__val
+#
+#     # Статический метод
+#     @staticmethod
+#     def det_counter():
+#         return ExampleClass.__counter
+
+# ===========================================================================================================
+
+import math
+
+class GeometryCalculator:
+    """Класс для подсчета площади геометрических фигур с использованием статических методов"""
+
+    # Статическая переменная для подсчета количества вычислений
+    _calculation_count = 0
+
+    @staticmethod
+    def _increment_count():
+        """Увеличивает счетчик вычислений"""
+        GeometryCalculator._calculation_count += 1
+
+    @staticmethod
+    def get_calculation_count():
+        """Возвращает количество выполненных подсчетов площади"""
+        return GeometryCalculator._calculation_count
+
+    @staticmethod
+    def triangle_area_by_base_height(base, height):
         """
-        Конструктор класса
-        :param numerator: числитель (по умолчанию 0)
-        :param denominator: знаменатель (по умолчанию 1)
+        Площадь треугольника по основанию и высоте
+        S = (a * h) / 2
         """
-        if denominator == 0:
-            raise ValueError("Знаменатель не может быть равен нулю!")
+        if base <= 0 or height <= 0:
+            raise ValueError("Основание и высота должны быть положительными числами")
+        area = (base * height) / 2
+        GeometryCalculator._increment_count()
+        return area
 
-        self.__numerator = numerator
-        self.__denominator = denominator
-        self.__reduce()  # Сразу сокращаем дробь
+    @staticmethod
+    def triangle_area_by_three_sides(a, b, c):
+        """
+        Площадь треугольника по трем сторонам (формула Герона)
+        S = sqrt(p * (p - a) * (p - b) * (p - c))
+        где p - полупериметр
+        """
+        if a <= 0 or b <= 0 or c <= 0:
+            raise ValueError("Все стороны должны быть положительными числами")
+        if a + b <= c or a + c <= b or b + c <= a:
+            raise ValueError("Треугольник с такими сторонами не существует")
 
-    # Методы для ввода и вывода данных
-    def input_data(self):
-        """Метод для ввода данных с клавиатуры"""
-        while True:
-            try:
-                num = int(input("Введите числитель: "))
-                den = int(input("Введите знаменатель: "))
+        p = (a + b + c) / 2
+        area = math.sqrt(p * (p - a) * (p - b) * (p - c))
+        GeometryCalculator._increment_count()
+        return area
 
-                if den == 0:
-                    print("Ошибка: знаменатель не может быть равен нулю! Попробуйте снова.")
-                    continue
+    @staticmethod
+    def triangle_area_by_two_sides_and_angle(a, b, angle_degrees):
+        """
+        Площадь треугольника по двум сторонам и углу между ними (в градусах)
+        S = (a * b * sin(угол)) / 2
+        """
+        if a <= 0 or b <= 0:
+            raise ValueError("Стороны должны быть положительными числами")
+        if angle_degrees <= 0 or angle_degrees >= 180:
+            raise ValueError("Угол должен быть в диапазоне (0, 180) градусов")
 
-                self.__numerator = num
-                self.__denominator = den
-                self.__reduce()
-                break
-            except ValueError:
-                print("Ошибка: введите целые числа! Попробуйте снова.")
+        angle_radians = math.radians(angle_degrees)
+        area = (a * b * math.sin(angle_radians)) / 2
+        GeometryCalculator._increment_count()
+        return area
 
-    def print_data(self):
-        """Метод для вывода данных на экран"""
-        print(self)
+    @staticmethod
+    def rectangle_area(length, width):
+        """
+        Площадь прямоугольника
+        S = a * b
+        """
+        if length <= 0 or width <= 0:
+            raise ValueError("Длина и ширина должны быть положительными числами")
+        area = length * width
+        GeometryCalculator._increment_count()
+        return area
 
-    # Методы доступа к полям (геттеры и сеттеры)
-    def get_numerator(self):
-        """Получить числитель"""
-        return self.__numerator
+    @staticmethod
+    def square_area(side):
+        """
+        Площадь квадрата
+        S = a^2
+        """
+        if side <= 0:
+            raise ValueError("Сторона должна быть положительным числом")
+        area = side ** 2
+        GeometryCalculator._increment_count()
+        return area
 
-    def set_numerator(self, value):
-        """Установить числитель"""
-        self.__numerator = value
-        self.__reduce()
+    @staticmethod
+    def rhombus_area_by_diagonals(d1, d2):
+        """
+        Площадь ромба по диагоналям
+        S = (d1 * d2) / 2
+        """
+        if d1 <= 0 or d2 <= 0:
+            raise ValueError("Диагонали должны быть положительными числами")
+        area = (d1 * d2) / 2
+        GeometryCalculator._increment_count()
+        return area
 
-    def get_denominator(self):
-        """Получить знаменатель"""
-        return self.__denominator
+    @staticmethod
+    def rhombus_area_by_side_and_angle(side, angle_degrees):
+        """
+        Площадь ромба по стороне и углу (в градусах)
+        S = a^2 * sin(угол)
+        """
+        if side <= 0:
+            raise ValueError("Сторона должна быть положительным числом")
+        if angle_degrees <= 0 or angle_degrees >= 180:
+            raise ValueError("Угол должен быть в диапазоне (0, 180) градусов")
 
-    def set_denominator(self, value):
-        """Установить знаменатель"""
-        if value == 0:
-            raise ValueError("Знаменатель не может быть равен нулю!")
-        self.__denominator = value
-        self.__reduce()
+        angle_radians = math.radians(angle_degrees)
+        area = (side ** 2) * math.sin(angle_radians)
+        GeometryCalculator._increment_count()
+        return area
 
-    def is_zero(self):
-        """Проверка, является ли дробь нулевой"""
-        return self.__numerator == 0
+    @staticmethod
+    def rhombus_area_by_side_and_height(side, height):
+        """
+        Площадь ромба по стороне и высоте
+        S = a * h
+        """
+        if side <= 0 or height <= 0:
+            raise ValueError("Сторона и высота должны быть положительными числами")
+        if height > side:
+            raise ValueError("Высота не может быть больше стороны ромба")
+        area = side * height
+        GeometryCalculator._increment_count()
+        return area
 
-    # Вспомогательный метод для сокращения дроби
-    def __reduce(self):
-        """Приведение дроби к несократимому виду (приватный метод)"""
-        # Если знаменатель отрицательный, переносим минус в числитель
-        if self.__denominator < 0:
-            self.__numerator = -self.__numerator
-            self.__denominator = -self.__denominator
-
-        # Если числитель равен 0, знаменатель делаем 1
-        if self.__numerator == 0:
-            self.__denominator = 1
-            return
-
-        # Находим НОД
-        from math import gcd
-        divisor = gcd(abs(self.__numerator), abs(self.__denominator))
-
-        # Сокращаем дробь
-        self.__numerator //= divisor
-        self.__denominator //= divisor
-
-    # Арифметические операции
-    def add(self, other):
-        """Сложение дробей"""
-        if not isinstance(other, Fraction):
-            raise TypeError("Операнд должен быть объектом класса Fraction")
-
-        new_num = self.__numerator * other.__denominator + other.__numerator * self.__denominator
-        new_den = self.__denominator * other.__denominator
-        return Fraction(new_num, new_den)
-
-    def subtract(self, other):
-        """Вычитание дробей"""
-        if not isinstance(other, Fraction):
-            raise TypeError("Операнд должен быть объектом класса Fraction")
-
-        new_num = self.__numerator * other.__denominator - other.__numerator * self.__denominator
-        new_den = self.__denominator * other.__denominator
-        return Fraction(new_num, new_den)
-
-    def multiply(self, other):
-        """Умножение дробей"""
-        if not isinstance(other, Fraction):
-            raise TypeError("Операнд должен быть объектом класса Fraction")
-
-        new_num = self.__numerator * other.__numerator
-        new_den = self.__denominator * other.__denominator
-        return Fraction(new_num, new_den)
-
-    def divide(self, other):
-        """Деление дробей"""
-        if not isinstance(other, Fraction):
-            raise TypeError("Операнд должен быть объектом класса Fraction")
-
-        if other.__numerator == 0:
-            raise ZeroDivisionError("Деление на нулевую дробь невозможно!")
-
-        new_num = self.__numerator * other.__denominator
-        new_den = self.__denominator * other.__numerator
-        return Fraction(new_num, new_den)
-
-    # Дополнительные методы
-    def to_decimal(self, precision = 2):
-        """Преобразование в десятичную дробь"""
-        return round(self.__numerator / self.__denominator, precision)
-
-    # Перегрузка методов для удобства использования
-    def __str__(self):
-        """Строковое представление дроби"""
-        if self.__denominator == 1:
-            return str(self.__numerator)
-        elif self.__numerator == 0:
-            return "0"
-        else:
-            return f"{self.__numerator}/{self.__denominator}"
-
-    def __repr__(self):
-        """Представление для отладки"""
-        return f"Fraction({self.__numerator}, {self.__denominator})"
-
-    # Перегрузка арифметических операторов для удобства
-    def __add__(self, other):
-        return self.add(other)
-
-    def __sub__(self, other):
-        return self.subtract(other)
-
-    def __mul__(self, other):
-        return self.multiply(other)
-
-    def __truediv__(self, other):
-        return self.divide(other)
-
-    def __eq__(self, other):
-        """Сравнение на равенство"""
-        if not isinstance(other, Fraction):
-            return False
-        return (self.__numerator == other.__numerator and self.__denominator == other.__denominator)
-
-
-# Пример использования программы
-def main():
-    print("=" * 50)
-    print("РАБОТА С ДРОБЯМИ")
-    print("=" * 50)
-
-    # Создание дроби через конструктор
-    print("\n1. Создание дроби через конструктор:")
-    f1 = Fraction(3, 4)
-    print(f"Дробь 1: {f1}")
-
-    # Создание дроби через ввод с клавиатуры
-    print("\n2. Ввод дроби с клавиатуры:")
-    f2 = Fraction()
-    f2.input_data()
-    print(f"Дробь 2: {f2}")
-
-    # Демонстрация методов доступа к полям
-    print("\n3. Доступ к полям через методы:")
-    print(f"Числитель дроби 1: {f1.get_numerator()}")
-    print(f"Знаменатель дроби 1: {f1.get_denominator()}")
-
-    print("\nИзменение полей через методы:")
-    f1.set_numerator(6)
-    f1.set_denominator(8)
-    print(f"После изменения: {f1}")  # Автоматически сократится до 3/4
-
-    # Арифметические операции с обработкой ошибок
-    print("\n4. Арифметические операции:")
-    print(f"{f1} + {f2} = {f1.add(f2)}")
-    print(f"{f1} - {f2} = {f1.subtract(f2)}")
-    print(f"{f1} * {f2} = {f1.multiply(f2)}")
-
-    # Проверка перед делением
-    if f2.is_zero():
-        print(f"{f1} / {f2} = Деление на ноль невозможно!")
-    else:
-        print(f"{f1} / {f2} = {f1.divide(f2)}")
-
-    # Использование перегруженных операторов
-    print("\n5. Использование перегруженных операторов:")
-    f3 = Fraction(1, 2)
-    f4 = Fraction(1, 3)
-    print(f"{f3} + {f4} = {f3 + f4}")
-    print(f"{f3} - {f4} = {f3 - f4}")
-    print(f"{f3} * {f4} = {f3 * f4}")
-
-    if f4.is_zero():
-        print(f"{f3} / {f4} = Деление на ноль невозможно!")
-    else:
-        print(f"{f3} / {f4} = {f3 / f4}")
-
-    # Десятичное представление
-    print("\n6. Десятичное представление:")
-    print(f"{f3} = {f3.to_decimal()}")
-    print(f"{f3} = {f3.to_decimal(4)} (с точностью 4 знака)")
-
-    # Сравнение дробей
-    print("\n7. Сравнение дробей:")
-    f5 = Fraction(2, 4)  # Сократится до 1/2
-    print(f"{f3} == {f5} ? {f3 == f5}")
-
-    print("\n" + "=" * 50)
-
-
+# Пример использования
 if __name__ == "__main__":
-    main()
+    # Подсчет площади треугольника
+    print(f"Площадь треугольника (основание 5, высота 3): {GeometryCalculator.triangle_area_by_base_height(5, 3):.2f}")
+    print(f"Площадь треугольника (стороны 3, 4, 5): {GeometryCalculator.triangle_area_by_three_sides(3, 4, 5):.2f}")
+    print(f"Площадь треугольника (стороны 5, 6, угол 30°): {GeometryCalculator.triangle_area_by_two_sides_and_angle(5, 6, 30):.2f}")
+
+    # Подсчет площади прямоугольника
+    print(f"Площадь прямоугольника (4 x 6): {GeometryCalculator.rectangle_area(4, 6):.2f}")
+
+    # Подсчет площади квадрата
+    print(f"Площадь квадрата (сторона 5): {GeometryCalculator.square_area(5):.2f}")
+
+    # Подсчет площади ромба
+    print(f"Площадь ромба (диагонали 6 и 8): {GeometryCalculator.rhombus_area_by_diagonals(6, 8):.2f}")
+    print(f"Площадь ромба (сторона 5, угол 60°): {GeometryCalculator.rhombus_area_by_side_and_angle(5, 60):.2f}")
+    print(f"Площадь ромба (сторона 5, высота 4): {GeometryCalculator.rhombus_area_by_side_and_height(5, 4):.2f}")
+
+    # Вывод количества подсчетов
+    print(f"\nВсего выполнено подсчетов площади: {GeometryCalculator.get_calculation_count()}")
